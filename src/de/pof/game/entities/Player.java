@@ -19,12 +19,14 @@ public class Player implements Entity{
 
 	private long jumpStart;
 	private long lastUpdate;
+	private long lastHit;
 
 	public Player(int x, int y) {
 		this.pos = new Vec2d(x, y);
 		this.vel = new Vec2d(0, 0);
 
 		jumpStart = -1;
+		lastHit = System.currentTimeMillis();
 
 		action = Actions.STANDING;
 		anim = new Animation("player_moving") {
@@ -142,5 +144,13 @@ public class Player implements Entity{
 			}
 			this.action = newAc;
 		}
+	}
+
+	public void hit() {
+		lastHit = System.currentTimeMillis();
+	}
+
+	public boolean hitable() {
+		return System.currentTimeMillis() - lastHit >= GUIConstants.INVULNERABLE_AFTER_HIT;
 	}
 }

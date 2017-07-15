@@ -1,13 +1,20 @@
 package game.map;
 
+import de.pof.GUIConstants;
+import de.pof.game.entities.Entity;
+import de.pof.game.entities.Spider;
 import de.pof.textures.TextureHandler;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Map {
 
 	private int[][] map;
 	private int width, height;
+
+	List<Entity> entities;
 
 	public Map(String mapname) {
 
@@ -15,6 +22,17 @@ public class Map {
 			InputStream in = ClassLoader.getSystemResourceAsStream(String.format("res/maps/%s.txt", mapname));
 			BufferedReader r = new BufferedReader(new InputStreamReader(in));
 			String line = r.readLine();
+
+			entities = new ArrayList<>();
+			int entites = Integer.parseInt(line);
+
+			for(int i = 0; i < entites; i++) {
+				line = r.readLine();
+				if(line.startsWith("s ")) entities.add(new Spider(Integer.parseInt(line.split(" ")[1]) * GUIConstants.TILE_SIZE, Integer.parseInt(line.split(" ")[2]) * GUIConstants.TILE_SIZE));
+
+			}
+
+			line = r.readLine();
 			this.width = Integer.parseInt(line.split(" ")[0]);
 			this.height = Integer.parseInt(line.split(" ")[1]);
 
@@ -54,5 +72,9 @@ public class Map {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public List<Entity> getEntities() {
+		return entities;
 	}
 }

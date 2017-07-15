@@ -82,4 +82,8 @@ public class Lamp implements Entity{
 	public boolean hasFuel() {
 		return fuel > 0;
 	}
+
+	public void addFuel(float toadd) {
+		fuel += toadd;
+	}
 }

@@ -3,8 +3,10 @@ package de.pof.window.views;
 import de.pof.GUIConstants;
 import de.pof.Maths;
 import de.pof.game.entities.Actions;
+import de.pof.game.entities.Entity;
 import de.pof.game.entities.Lamp;
 import de.pof.game.entities.Player;
+import de.pof.gamelib.hitboxes.Hitbox;
 import de.pof.gamelib.math.Vec2d;
 import de.pof.textures.TextureHandler;
 import de.pof.window.View;
@@ -67,6 +69,15 @@ public class GameView extends View implements Controller{
 				if(lampFollow) lamp.setPosition(player.getPosition().x - 20, player.getPosition().y - 7);
 				lamp.update(m);
 
+				for(Entity e: m.getEntities()) {
+					if(player.hitable() && new Hitbox(Hitbox.HitboxType.RECTANGLE, player.getPosition(), player.getHitBox().getWidth(), player.getHitBox().getHeight()).collides(new Hitbox(Hitbox.HitboxType.RECTANGLE, e.getPosition(), e.getHitBox().getWidth(), e.getHitBox().getHeight()))) {
+						lamp.addFuel(-50.0f);
+						player.hit();
+					}
+
+					e.update(m);
+				}
+
 				try {
 					Thread.sleep(1000/30);
 				} catch (InterruptedException e) {
@@ -99,6 +110,10 @@ public class GameView extends View implements Controller{
 
 			if(lamp.getPosition().distanceTo(player.getPosition()) <= lampreach*GUIConstants.TILE_SIZE) g.drawImage(player.getSprite(), (int) player.getPosition().x + xOff, (int) player.getPosition().y + yOff, null);
 			if(lamp.getSprite() != null) g.drawImage(lamp.getSprite(), (int) lamp.getPosition().x + xOff, (int) lamp.getPosition().y + yOff, null);
+
+			for(Entity e: m.getEntities()) {
+				if(lamp.getPosition().distanceTo(e.getPosition()) <= lampreach*GUIConstants.TILE_SIZE) g.drawImage(e.getSprite(), (int)e.getPosition().x + xOff, (int) (e.getPosition().y + yOff), null);
+			}
 		}
 
 		w.getPanel().getGraphics().drawImage(buffer, 0, 0, null);

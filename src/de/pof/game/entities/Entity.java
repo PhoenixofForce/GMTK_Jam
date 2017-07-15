@@ -14,5 +14,4 @@ public interface Entity {
 
 	BufferedImage getSprite();
 	Hitbox getHitBox();
-
 }
