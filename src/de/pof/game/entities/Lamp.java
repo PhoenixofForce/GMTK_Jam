@@ -13,14 +13,19 @@ public class Lamp implements Entity{
 	private float fuel;
 
 	private boolean blink;
+	private boolean shineBrigth;
 	private long lastUpdate;
+	private long lastShineUpdate;
 
 	public Lamp(int x, int y) {
 		fuel = 1000.0f;
 		pos = new Vec2d(x, y);
+
 		blink = false;
+		shineBrigth = false;
 
 		lastUpdate = System.currentTimeMillis();
+		lastShineUpdate = System.currentTimeMillis();
 	}
 
 	@Override
@@ -35,11 +40,18 @@ public class Lamp implements Entity{
 
 	@Override
 	public void update(Map m) {
+		System.out.println(fuel);
+
 		if(fuel <= 100.0f) {
 			if(System.currentTimeMillis() - lastUpdate >= 500) {
 				lastUpdate = System.currentTimeMillis();
 				blink = !blink;
 			}
+		}
+
+		if(shineBrigth && System.currentTimeMillis() - lastShineUpdate >= 500) {
+			fuel -= 10.0f;
+			lastShineUpdate = System.currentTimeMillis();
 		}
 	}
 
@@ -57,5 +69,13 @@ public class Lamp implements Entity{
 		fuel -= pos.distanceTo(new Vec2d(x, y))/30.0f;
 		this.pos.x = x;
 		this.pos.y = y;
+	}
+
+	public boolean isShiningBrigth() {
+		return shineBrigth;
+	}
+
+	public void setBrigthShining(boolean bool) {
+		this.shineBrigth = bool;
 	}
 }

@@ -56,6 +56,8 @@ public class GameView extends View implements Controller{
 				Vec2d vel = new Vec2d(0, 0);
 				if (key.isPressed(KeyEvent.VK_D)) vel.x = 6;
 				if (key.isPressed(KeyEvent.VK_A)) vel.x = -6;
+				if (key.isPressed(KeyEvent.VK_E) && lampFollow) lamp.setBrigthShining(true);
+				else lamp.setBrigthShining(false);
 				if(key.isPressed(KeyEvent.VK_W)) player.setAction(Actions.JUMPING);
 
 				player.setVelocity((int) vel.x, (int) vel.y);
@@ -79,14 +81,16 @@ public class GameView extends View implements Controller{
 		g.setColor(GUIConstants.BACKGROUND_COLOR);
 		g.fillRect(0, 0, w.getPanel().getWidth(), w.getPanel().getHeight());
 
+		float lampreach = GUIConstants.LAMP_REACH * (lamp.isShiningBrigth()? 1.5f: 1.0f);
+
 		for(int x = 0; x < m.getWidth(); x++) {
 			for(int y = 0; y < m.getHeight(); y++) {
 				BufferedImage sprite = m.getMap()[x][y] == 1? TextureHandler.getImagePng("grass"): m.getMap()[x][y] == 2? TextureHandler.getImagePng("dirt"): null;
-				if(lamp.getPosition().clone().divide(GUIConstants.TILE_SIZE).distanceTo(new Vec2d(x, y)) <= GUIConstants.LAMP_REACH)g.drawImage(sprite, x * GUIConstants.TILE_SIZE, y * GUIConstants.TILE_SIZE, GUIConstants.TILE_SIZE, GUIConstants.TILE_SIZE, null);
+				if(lamp.getPosition().clone().divide(GUIConstants.TILE_SIZE).distanceTo(new Vec2d(x, y)) <= lampreach)g.drawImage(sprite, x * GUIConstants.TILE_SIZE, y * GUIConstants.TILE_SIZE, GUIConstants.TILE_SIZE, GUIConstants.TILE_SIZE, null);
 			}
 		}
 
-		if(lamp.getPosition().distanceTo(player.getPosition()) <= GUIConstants.LAMP_REACH*GUIConstants.TILE_SIZE) g.drawImage(player.getSprite(), (int) player.getPosition().x, (int) player.getPosition().y, null);
+		if(lamp.getPosition().distanceTo(player.getPosition()) <= lampreach*GUIConstants.TILE_SIZE) g.drawImage(player.getSprite(), (int) player.getPosition().x, (int) player.getPosition().y, null);
 		if(lamp.getSprite() != null) g.drawImage(lamp.getSprite(), (int) lamp.getPosition().x, (int) lamp.getPosition().y, null);
 
 		w.getPanel().getGraphics().drawImage(buffer, 0, 0, null);
@@ -94,7 +98,9 @@ public class GameView extends View implements Controller{
 
 	@Override
 	public void onKeyType(int i) {
-		if(i == KeyEvent.VK_S) lampFollow = !lampFollow;
+		if(i == KeyEvent.VK_S) {
+			lampFollow = !lampFollow;
+		}
 	}
 
 	@Override

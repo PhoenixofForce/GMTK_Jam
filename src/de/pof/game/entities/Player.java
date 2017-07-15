@@ -74,7 +74,7 @@ public class Player implements Entity{
 			}
 		}
 
-		System.out.println(action);
+		//System.out.println(action);
 
 		if(this.action == Actions.JUMPING) vel.y -= 2;
 		if(this.action == Actions.FALLING) vel.y += 2;
