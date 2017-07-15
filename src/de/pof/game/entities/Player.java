@@ -27,7 +27,7 @@ public class Player implements Entity{
 		jumpStart = -1;
 
 		action = Actions.STANDING;
-		anim = new Animation("player_standing") {
+		anim = new Animation("player_moving") {
 			@Override
 			public void onSpriteChange() {
 				sprite = getCurrentSprite();

@@ -78,4 +78,8 @@ public class Lamp implements Entity{
 	public void setBrigthShining(boolean bool) {
 		this.shineBrigth = bool;
 	}
+
+	public boolean hasFuel() {
+		return fuel > 0;
+	}
 }

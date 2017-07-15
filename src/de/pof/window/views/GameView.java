@@ -35,6 +35,7 @@ public class GameView extends View implements Controller{
 	public void init(Window window) {
 
 		TextureHandler.loadImagePng("lamp", "lamp");
+		TextureHandler.loadImagePng("spider", "spider");
 		TextureHandler.loadImagePngSpriteSheet("player", "player");
 
 		this.w = window;
@@ -49,7 +50,7 @@ public class GameView extends View implements Controller{
 		this.lamp = new Lamp(0, 45);
 
 		new Thread(() -> {
-			while(true) {
+			while(running) {
 				draw();
 
 
@@ -77,21 +78,28 @@ public class GameView extends View implements Controller{
 
 	public void draw() {
 		BufferedImage buffer = new BufferedImage(w.getPanel().getWidth(), w.getPanel().getHeight(), BufferedImage.TYPE_INT_ARGB);
-		Graphics g = buffer.getGraphics();
+		Graphics2D g = (Graphics2D) buffer.getGraphics();
 		g.setColor(GUIConstants.BACKGROUND_COLOR);
 		g.fillRect(0, 0, w.getPanel().getWidth(), w.getPanel().getHeight());
 
-		float lampreach = GUIConstants.LAMP_REACH * (lamp.isShiningBrigth()? 1.5f: 1.0f);
+		int xOff = (int) (w.getPanel().getWidth()/2 - player.getPosition().x);
+		int yOff = (int) (w.getPanel().getHeight()/2 - player.getPosition().y);
 
-		for(int x = 0; x < m.getWidth(); x++) {
-			for(int y = 0; y < m.getHeight(); y++) {
-				BufferedImage sprite = m.getMap()[x][y] == 1? TextureHandler.getImagePng("grass"): m.getMap()[x][y] == 2? TextureHandler.getImagePng("dirt"): null;
-				if(lamp.getPosition().clone().divide(GUIConstants.TILE_SIZE).distanceTo(new Vec2d(x, y)) <= lampreach)g.drawImage(sprite, x * GUIConstants.TILE_SIZE, y * GUIConstants.TILE_SIZE, GUIConstants.TILE_SIZE, GUIConstants.TILE_SIZE, null);
+		if(lamp.hasFuel()) {
+			float lampreach = GUIConstants.LAMP_REACH * (lamp.isShiningBrigth()? 1.5f: 1.0f);
+
+			for(int x = 0; x < m.getWidth(); x++) {
+				for(int y = 0; y < m.getHeight(); y++) {
+					BufferedImage sprite = m.getMap()[x][y] == 1? TextureHandler.getImagePng("grass"): m.getMap()[x][y] == 2? TextureHandler.getImagePng("dirt"): null;
+					if(lamp.getPosition().clone().divide(GUIConstants.TILE_SIZE).distanceTo(new Vec2d(x, y)) <= lampreach) {
+						g.drawImage(sprite, x * GUIConstants.TILE_SIZE + xOff, y * GUIConstants.TILE_SIZE + yOff, GUIConstants.TILE_SIZE, GUIConstants.TILE_SIZE, null);
+					}
+				}
 			}
-		}
 
-		if(lamp.getPosition().distanceTo(player.getPosition()) <= lampreach*GUIConstants.TILE_SIZE) g.drawImage(player.getSprite(), (int) player.getPosition().x, (int) player.getPosition().y, null);
-		if(lamp.getSprite() != null) g.drawImage(lamp.getSprite(), (int) lamp.getPosition().x, (int) lamp.getPosition().y, null);
+			if(lamp.getPosition().distanceTo(player.getPosition()) <= lampreach*GUIConstants.TILE_SIZE) g.drawImage(player.getSprite(), (int) player.getPosition().x + xOff, (int) player.getPosition().y + yOff, null);
+			if(lamp.getSprite() != null) g.drawImage(lamp.getSprite(), (int) lamp.getPosition().x + xOff, (int) lamp.getPosition().y + yOff, null);
+		}
 
 		w.getPanel().getGraphics().drawImage(buffer, 0, 0, null);
 	}
