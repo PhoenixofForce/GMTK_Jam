@@ -4,6 +4,7 @@ import de.pof.GUIConstants;
 import de.pof.game.entities.Entity;
 import de.pof.game.entities.Player;
 import de.pof.game.entities.Spider;
+import de.pof.game.entities.Spike;
 import de.pof.textures.TextureHandler;
 
 import java.io.*;
@@ -30,6 +31,7 @@ public class Map {
 			for(int i = 0; i < entites; i++) {
 				line = r.readLine();
 				if(line.startsWith("s ")) entities.add(new Spider(Integer.parseInt(line.split(" ")[1]) * GUIConstants.TILE_SIZE, Integer.parseInt(line.split(" ")[2]) * GUIConstants.TILE_SIZE));
+				if(line.startsWith("p ")) entities.add(new Spike(Integer.parseInt(line.split(" ")[1]) * GUIConstants.TILE_SIZE, Integer.parseInt(line.split(" ")[2]) * GUIConstants.TILE_SIZE));
 
 			}
 

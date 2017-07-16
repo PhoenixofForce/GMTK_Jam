@@ -38,6 +38,7 @@ public class GameView extends View implements Controller{
 
 		TextureHandler.loadImagePng("lamp", "lamp");
 		TextureHandler.loadImagePng("spider", "spider");
+		TextureHandler.loadImagePng("spike", "spike");
 		TextureHandler.loadImagePngSpriteSheet("player", "player");
 
 		this.w = window;
@@ -64,7 +65,7 @@ public class GameView extends View implements Controller{
 					lamp.setBrigthShining(false);
 					//TODO: attack
 				}
-				if(key.isPressed(KeyEvent.VK_W)) player.setAction(Actions.JUMPING);
+				if(key.isPressed(KeyEvent.VK_SPACE)) player.setAction(Actions.JUMPING);
 
 				player.setVelocity((int) vel.x, (int) vel.y);
 				player.update(m);
