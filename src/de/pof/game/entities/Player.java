@@ -119,7 +119,10 @@ public class Player implements Entity{
 			System.err.println("Error X");
 		}
 
-		this.pos.add(vel);
+		if (vel.length() > 0) {
+			this.pos.add(vel);
+			m.onPlayerMove(this);
+		}
 	}
 
 	public Vec2d getVel() {

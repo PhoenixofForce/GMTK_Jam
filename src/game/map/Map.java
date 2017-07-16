@@ -2,6 +2,7 @@ package game.map;
 
 import de.pof.GUIConstants;
 import de.pof.game.entities.Entity;
+import de.pof.game.entities.Player;
 import de.pof.game.entities.Spider;
 import de.pof.textures.TextureHandler;
 
@@ -64,6 +65,10 @@ public class Map {
 
 	public boolean isSolid(int x, int y) {
 		return getTile(x, y) == 1 || getTile(x, y) == 2;
+	}
+
+	public void onPlayerMove(Player player) {
+
 	}
 
 	public int getWidth() {
