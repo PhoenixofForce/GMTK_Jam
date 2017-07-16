@@ -31,7 +31,7 @@ public class Player implements Entity{
 		attackStart = System.currentTimeMillis();
 
 		action = Actions.STANDING;
-		anim = new Animation("player_moving") {
+		anim = new Animation("player_standing") {
 			@Override
 			public void onSpriteChange() {
 				sprite = getCurrentSprite();
@@ -56,10 +56,6 @@ public class Player implements Entity{
 	@Override
 	public void update(Map m) {
 		long curTime = System.currentTimeMillis();
-		if(curTime - lastUpdate >= 75) {
-			lastUpdate = curTime;
-			anim.next();
-		}
 
 		if((action == Actions.JUMPING && curTime - jumpStart < GUIConstants.JUMP_TIME) || (action == Actions.ATTACKING && curTime - attackStart <= 300));
 		else {
@@ -71,12 +67,21 @@ public class Player implements Entity{
 			if(!(m.isSolid((int) Math.floor(tilePos_2.x), (int) Math.floor(tilePos_2.y)) || m.isSolid((int) Math.floor(tilePos_1.x), (int) Math.floor(tilePos_2.y)))) {
 				this.action = Actions.FALLING;
 			}else {
-				if(vel.x == 0.0) this.action = Actions.STANDING;
-				else this.action = Actions.MOVING;
+				if(vel.x == 0.0) {
+					anim.setAnimation("player_standing");
+					this.action = Actions.STANDING;
+				}
+				else {
+					anim.setAnimation("player_moving");
+					this.action = Actions.MOVING;
+				}
 			}
 		}
 
-		System.out.println(action);
+		if(curTime - lastUpdate >= 75) {
+			lastUpdate = curTime;
+			anim.next();
+		}
 
 		if(this.action == Actions.JUMPING) vel.y -= 2;
 		if(this.action == Actions.FALLING) vel.y += 2;
@@ -148,12 +153,14 @@ public class Player implements Entity{
 		if(action != Actions.FALLING && action != Actions.JUMPING) {
 			if(newAc == Actions.JUMPING) {
 				jumpStart = System.currentTimeMillis();
+				anim.setAnimation("player_standing");
 			}
 			this.action = newAc;
 		}
 
 		if(newAc == Actions.ATTACKING && System.currentTimeMillis() - attackStart >= 750) {
 			attackStart = System.currentTimeMillis();
+			anim.setAnimation("player_attacking");
 			this.action = newAc;
 		}
 	}

@@ -1,6 +1,11 @@
-5
+10
 moving_0 0 0 18 26
 moving_1 18 0 18 26
 moving_2 0 0 18 26
 moving_3 36 0 18 26
+moving_4 0 0 18 26
 standing_0 0 0 18 26
+attacking_0 0 26 18 26
+attacking_1 0 0 18 26
+attacking_2 18 26 18 26
+attacking_3 0 0 18 26
