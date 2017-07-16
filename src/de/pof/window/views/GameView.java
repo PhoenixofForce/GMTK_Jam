@@ -60,7 +60,10 @@ public class GameView extends View implements Controller{
 				if (key.isPressed(KeyEvent.VK_D)) vel.x = 6;
 				if (key.isPressed(KeyEvent.VK_A)) vel.x = -6;
 				if (key.isPressed(KeyEvent.VK_E) && lampFollow) lamp.setBrigthShining(true);
-				else lamp.setBrigthShining(false);
+				else {
+					lamp.setBrigthShining(false);
+					//TODO: attack
+				}
 				if(key.isPressed(KeyEvent.VK_W)) player.setAction(Actions.JUMPING);
 
 				player.setVelocity((int) vel.x, (int) vel.y);
@@ -117,9 +120,9 @@ public class GameView extends View implements Controller{
 		}
 
 		g.setColor(Color.GRAY);
-		g.fillRect(50, 50, 75, 400);
-		g.setColor(Color.YELLOW);
-		g.fillRect(53, 53+(int)(394 * (1-(lamp.getFuel()/1000))), 69, (int)(394 * (lamp.getFuel()/1000)));
+		g.fillRect(50, 50, 30, 400);
+		g.setColor(new Color(246, 204, 0));
+		g.fillRect(53, 53+(int)(394 * (1-(lamp.getFuel()/Lamp.MAX_FUEL))), 24, (int)(394 * (lamp.getFuel()/Lamp.MAX_FUEL)));
 
 		w.getPanel().getGraphics().drawImage(buffer, 0, 0, null);
 	}

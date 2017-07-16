@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 
 public class Lamp implements Entity{
 
+	public static final float MAX_FUEL = 375.0f;
+
 	private Vec2d pos;
 	private float fuel;
 
@@ -18,7 +20,7 @@ public class Lamp implements Entity{
 	private long lastShineUpdate;
 
 	public Lamp(int x, int y) {
-		fuel = 1000.0f;
+		fuel = MAX_FUEL;
 		pos = new Vec2d(x, y);
 
 		blink = false;
