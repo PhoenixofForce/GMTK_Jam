@@ -1,10 +1,7 @@
 package de.pof.window.views;
 
 import de.pof.GUIConstants;
-import de.pof.game.entities.Actions;
-import de.pof.game.entities.Entity;
-import de.pof.game.entities.Lamp;
-import de.pof.game.entities.Player;
+import de.pof.game.entities.*;
 import de.pof.gamelib.hitboxes.Hitbox;
 import de.pof.gamelib.math.Vec2d;
 import de.pof.textures.TextureHandler;
@@ -17,6 +14,8 @@ import game.map.Map;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameView extends View implements Controller{
 
@@ -62,7 +61,6 @@ public class GameView extends View implements Controller{
 				if (key.isPressed(KeyEvent.VK_E) && lampFollow) lamp.setBrigthShining(true);
 				else {
 					lamp.setBrigthShining(false);
-					//TODO: attack
 				}
 				if(key.isPressed(KeyEvent.VK_SPACE)) player.setAction(Actions.JUMPING);
 
@@ -72,14 +70,23 @@ public class GameView extends View implements Controller{
 				if(lampFollow) lamp.setPosition(player.getPosition().x - 20, player.getPosition().y - 7);
 				lamp.update(m);
 
+				List<Entity> rem = new ArrayList<>();
 				for(Entity e: m.getEntities()) {
-					if(player.hitable() && new Hitbox(Hitbox.HitboxType.RECTANGLE, player.getPosition(), player.getHitBox().getWidth(), player.getHitBox().getHeight()).collides(new Hitbox(Hitbox.HitboxType.RECTANGLE, e.getPosition(), e.getHitBox().getWidth(), e.getHitBox().getHeight()))) {
-						lamp.addFuel(-50.0f);
-						player.hit();
+					if(new Hitbox(Hitbox.HitboxType.RECTANGLE, player.getPosition(), player.getHitBox().getWidth(), player.getHitBox().getHeight()).collides(new Hitbox(Hitbox.HitboxType.RECTANGLE, e.getPosition(), e.getHitBox().getWidth(), e.getHitBox().getHeight()))) {
+						if(player.getAction() == Actions.ATTACKING) {
+							rem.add(e);
+							lamp.addFuel(30);
+						}else if(player.hitable()) {
+							lamp.addFuel(-50.0f);
+							player.hit();
+						}
 					}
+
 
 					e.update(m);
 				}
+
+				for(Entity e: rem) m.getEntities().remove(e);
 
 				try {
 					Thread.sleep(1000/30);
@@ -100,7 +107,7 @@ public class GameView extends View implements Controller{
 		int yOff = (int) (w.getPanel().getHeight()/2 - player.getPosition().y);
 
 		if(lamp.hasFuel()) {
-			float lampreach = GUIConstants.LAMP_REACH * (lamp.isShiningBrigth()? 1.5f: 1.0f);
+			float lampreach = GUIConstants.LAMP_REACH * (lamp.isShiningBrigth()? 1.75f: 1.0f);
 
 			for(int x = 0; x < m.getWidth(); x++) {
 				for(int y = 0; y < m.getHeight(); y++) {
@@ -138,6 +145,8 @@ public class GameView extends View implements Controller{
 				lamp.setFollowing(lampFollow);
 			}
 		}
+
+		if(i == KeyEvent.VK_E && !lampFollow) player.setAction(Actions.ATTACKING);
 	}
 
 	@Override

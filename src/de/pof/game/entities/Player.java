@@ -20,6 +20,7 @@ public class Player implements Entity{
 	private long jumpStart;
 	private long lastUpdate;
 	private long lastHit;
+	private long attackStart;
 
 	public Player(int x, int y) {
 		this.pos = new Vec2d(x, y);
@@ -27,6 +28,7 @@ public class Player implements Entity{
 
 		jumpStart = -1;
 		lastHit = System.currentTimeMillis();
+		attackStart = System.currentTimeMillis();
 
 		action = Actions.STANDING;
 		anim = new Animation("player_moving") {
@@ -59,8 +61,7 @@ public class Player implements Entity{
 			anim.next();
 		}
 
-
-		if(action == Actions.JUMPING && curTime - jumpStart < GUIConstants.JUMP_TIME);
+		if((action == Actions.JUMPING && curTime - jumpStart < GUIConstants.JUMP_TIME) || (action == Actions.ATTACKING && curTime - attackStart <= 300));
 		else {
 			jumpStart = -1;
 
@@ -75,7 +76,7 @@ public class Player implements Entity{
 			}
 		}
 
-		//System.out.println(action);
+		System.out.println(action);
 
 		if(this.action == Actions.JUMPING) vel.y -= 2;
 		if(this.action == Actions.FALLING) vel.y += 2;
@@ -139,11 +140,20 @@ public class Player implements Entity{
 		return new Hitbox(Hitbox.HitboxType.RECTANGLE, 0, 0, 18, 26);
 	}
 
+	public Actions getAction() {
+		return action;
+	}
+
 	public void setAction(Actions newAc) {
 		if(action != Actions.FALLING && action != Actions.JUMPING) {
 			if(newAc == Actions.JUMPING) {
 				jumpStart = System.currentTimeMillis();
 			}
+			this.action = newAc;
+		}
+
+		if(newAc == Actions.ATTACKING && System.currentTimeMillis() - attackStart >= 750) {
+			attackStart = System.currentTimeMillis();
 			this.action = newAc;
 		}
 	}
