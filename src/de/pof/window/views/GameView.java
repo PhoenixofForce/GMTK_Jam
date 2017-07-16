@@ -1,7 +1,6 @@
 package de.pof.window.views;
 
 import de.pof.GUIConstants;
-import de.pof.Maths;
 import de.pof.game.entities.Actions;
 import de.pof.game.entities.Entity;
 import de.pof.game.entities.Lamp;

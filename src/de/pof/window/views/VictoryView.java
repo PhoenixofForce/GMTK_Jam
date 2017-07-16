@@ -12,6 +12,19 @@ public class VictoryView extends View {
 	@Override
 	public void init(Window window) {
 		this.w = window;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while(true) {
+					draw();
+					try {
+						Thread.sleep(1000/30);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 
 	@Override
