@@ -48,11 +48,14 @@ public class Spike implements Entity{
 
 	@Override
 	public BufferedImage getSprite() {
-		return TextureHandler.getImagePng("spike");
+		BufferedImage small = TextureHandler.getImagePng("spike");
+		BufferedImage big = new BufferedImage(small.getWidth() * 2, small.getHeight() * 2, small.getType());
+		big.getGraphics().drawImage(small, 0, 0, big.getWidth(), big.getHeight(), null);
+		return big;
 	}
 
 	@Override
 	public Hitbox getHitBox() {
-		return new Hitbox(Hitbox.HitboxType.RECTANGLE, 0, 0, 13, 8);
+		return new Hitbox(Hitbox.HitboxType.RECTANGLE, 0, 0, 26, 16);
 	}
 }
