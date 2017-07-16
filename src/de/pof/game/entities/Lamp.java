@@ -55,6 +55,10 @@ public class Lamp implements Entity{
 		}
 	}
 
+	public float getFuel() {
+		return fuel;
+	}
+
 	@Override
 	public BufferedImage getSprite() {
 		return blink? null: TextureHandler.getImagePng("lamp");

@@ -116,8 +116,15 @@ public class GameView extends View implements Controller{
 			}
 		}
 
+		g.setColor(Color.GRAY);
+		g.fillRect(50, 50, 75, 400);
+		g.setColor(Color.YELLOW);
+		g.fillRect(53, 53+(int)(394 * (1-(lamp.getFuel()/1000))), 69, (int)(394 * (lamp.getFuel()/1000)));
+
 		w.getPanel().getGraphics().drawImage(buffer, 0, 0, null);
 	}
+
+
 
 	@Override
 	public void onKeyType(int i) {
