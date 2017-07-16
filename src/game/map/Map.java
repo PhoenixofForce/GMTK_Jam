@@ -14,7 +14,7 @@ public class Map {
 	private int[][] map;
 	private int width, height;
 
-	List<Entity> entities;
+	private List<Entity> entities;
 
 	public Map(String mapname) {
 
