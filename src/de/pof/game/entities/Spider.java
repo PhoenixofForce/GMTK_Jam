@@ -6,7 +6,6 @@ import de.pof.gamelib.math.Vec2d;
 import de.pof.textures.TextureHandler;
 import game.map.Map;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Spider implements Entity{
