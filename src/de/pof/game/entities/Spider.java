@@ -45,7 +45,6 @@ public class Spider implements Entity{
 			this.vel.y = 2;
 		} else this.vel.y = 0;
 
-		vel.x = walkRigth? 5: -5;
 		this.pos.add(vel);
 	}
 
