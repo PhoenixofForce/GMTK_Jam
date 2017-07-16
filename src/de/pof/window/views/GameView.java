@@ -48,7 +48,7 @@ public class GameView extends View implements Controller{
 
 		lampFollow = true;
 
-		m = new Map("TestMap_1");
+		m = new Map("TestMap_1", w);
 		this.player = new Player(5, 50);
 		this.lamp = new Lamp(0, 45);
 

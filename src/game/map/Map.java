@@ -6,6 +6,8 @@ import de.pof.game.entities.Player;
 import de.pof.game.entities.Spider;
 import de.pof.game.entities.Spike;
 import de.pof.textures.TextureHandler;
+import de.pof.window.Window;
+import de.pof.window.views.VictoryView;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -18,8 +20,9 @@ public class Map {
 
 	private List<Entity> entities;
 
-	public Map(String mapname) {
-
+	Window window;
+	public Map(String mapname, Window window) {
+		this.window = window;
 		try {
 			InputStream in = ClassLoader.getSystemResourceAsStream(String.format("res/maps/%s.txt", mapname));
 			BufferedReader r = new BufferedReader(new InputStreamReader(in));
@@ -71,7 +74,7 @@ public class Map {
 
 	public void onPlayerMove(Player player) {
 		if(getTile((int) Math.floor(player.getPosition().x/GUIConstants.TILE_SIZE), (int) Math.floor(player.getPosition().y / GUIConstants.TILE_SIZE)) == 3) {
-			//TODO: Victory
+			window.updateView(new VictoryView());
 		}
 	}
 
