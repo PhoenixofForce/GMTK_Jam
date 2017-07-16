@@ -68,7 +68,9 @@ public class Map {
 	}
 
 	public void onPlayerMove(Player player) {
-
+		if(getTile((int) Math.floor(player.getPosition().x/GUIConstants.TILE_SIZE), (int) Math.floor(player.getPosition().y / GUIConstants.TILE_SIZE)) == 3) {
+			//TODO: Victory
+		}
 	}
 
 	public int getWidth() {
