@@ -17,6 +17,8 @@ public class Player implements Entity{
 	private BufferedImage sprite;
 	private Actions action;
 
+	private boolean hasLamp;
+
 	private long jumpStart;
 	private long lastUpdate;
 	private long lastHit;
@@ -29,6 +31,7 @@ public class Player implements Entity{
 		jumpStart = -1;
 		lastHit = System.currentTimeMillis();
 		attackStart = System.currentTimeMillis();
+		hasLamp = true;
 
 		action = Actions.STANDING;
 		anim = new Animation("player_standing") {
@@ -171,5 +174,13 @@ public class Player implements Entity{
 
 	public boolean hitable() {
 		return System.currentTimeMillis() - lastHit >= GUIConstants.INVULNERABLE_AFTER_HIT;
+	}
+
+	public void setHasLamp(boolean a) {
+		this.hasLamp = (a);
+	}
+
+	public boolean hasLamp() {
+		return hasLamp;
 	}
 }

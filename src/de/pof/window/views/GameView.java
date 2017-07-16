@@ -143,6 +143,7 @@ public class GameView extends View implements Controller{
 				lampFollow = !lampFollow;
 				lamp.setPosition(player.getPosition().x, player.getPosition().y);
 				lamp.setFollowing(lampFollow);
+				player.setHasLamp(lampFollow);
 			}
 		}
 
