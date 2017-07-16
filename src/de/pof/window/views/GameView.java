@@ -133,7 +133,11 @@ public class GameView extends View implements Controller{
 	@Override
 	public void onKeyType(int i) {
 		if(i == KeyEvent.VK_S) {
-			lampFollow = !lampFollow;
+			if(lampFollow || (!lampFollow&&lamp.getPosition().distanceTo(player.getPosition()) < 2.5f * GUIConstants.TILE_SIZE)) {
+				lampFollow = !lampFollow;
+				lamp.setPosition(player.getPosition().x, player.getPosition().y);
+				lamp.setFollowing(lampFollow);
+			}
 		}
 	}
 
