@@ -68,11 +68,11 @@ public class Player implements Entity{
 				this.action = Actions.FALLING;
 			}else {
 				if(vel.x == 0.0) {
-					anim.setAnimation("player_standing");
+					if (this.action != Actions.STANDING) anim.setAnimation("player_standing");
 					this.action = Actions.STANDING;
 				}
 				else {
-					anim.setAnimation("player_moving");
+					if (this.action != Actions.MOVING) anim.setAnimation("player_moving");
 					this.action = Actions.MOVING;
 				}
 			}
