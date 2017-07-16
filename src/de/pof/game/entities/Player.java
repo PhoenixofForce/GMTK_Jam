@@ -35,7 +35,6 @@ public class Player implements Entity{
 				sprite = getCurrentSprite();
 			}
 		};
-
 	}
 
 	@Override

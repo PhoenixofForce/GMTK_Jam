@@ -45,6 +45,21 @@ public class Spider implements Entity{
 			this.vel.y = 2;
 		} else this.vel.y = 0;
 
+		if(walkRigth) {
+			Vec2d test = pos.clone().add(5, 2).add(getHitBox().getWidth(), getHitBox().getHeight()).divide(GUIConstants.TILE_SIZE);
+			Vec2d test2 = pos.clone().add(5, 0).add(getHitBox().getWidth(), 0).divide(GUIConstants.TILE_SIZE);
+			try {
+				if(!m.isSolid((int)Math.floor(test.x), (int)Math.floor(test.y)) || m.isSolid((int)Math.floor(test2.x), (int)Math.floor(test2.y))) walkRigth = false;
+			}catch (Exception e) {walkRigth = false;}
+		}else {
+			Vec2d test = pos.clone().add(-5, 2 + getHitBox().getHeight()).divide(GUIConstants.TILE_SIZE);
+			Vec2d test2 = pos.clone().add(-5, 0).divide(GUIConstants.TILE_SIZE);
+			try{
+				if(!m.isSolid((int)Math.floor(test.x), (int)Math.floor(test.y)) || m.isSolid((int)Math.floor(test2.x), (int)Math.floor(test2.y))) walkRigth = true;
+			}catch (Exception e) {walkRigth = true;}
+		}
+
+		vel.x = walkRigth? 5: -5;
 		this.pos.add(vel);
 	}
 

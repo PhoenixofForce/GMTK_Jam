@@ -112,7 +112,7 @@ public class GameView extends View implements Controller{
 			if(lamp.getSprite() != null) g.drawImage(lamp.getSprite(), (int) lamp.getPosition().x + xOff, (int) lamp.getPosition().y + yOff, null);
 
 			for(Entity e: m.getEntities()) {
-				if(lamp.getPosition().distanceTo(e.getPosition()) <= lampreach*GUIConstants.TILE_SIZE) g.drawImage(e.getSprite(), (int)e.getPosition().x + xOff, (int) (e.getPosition().y + yOff), null);
+				if(lampFollow && lamp.getPosition().distanceTo(e.getPosition()) <= lampreach*GUIConstants.TILE_SIZE) g.drawImage(e.getSprite(), (int)e.getPosition().x + xOff, (int) (e.getPosition().y + yOff), null);
 			}
 		}
 
